@@ -1,24 +1,24 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
+    int characterReplacement(string s, int k) {
         
-        if(s.length() == 0) return 0;
-        
-        unordered_set<char> st;
+        vector<int> occurrence(26, 0);
         int left = 0;
+        int maxOccurrence = 0;
         int ans = 0;
-        
+
         for(int right = 0; right < s.length(); right++) {
             
-            while(st.find(s[right]) != st.end()) {
-                st.erase(s[left]);
+            maxOccurrence = max(maxOccurrence, ++occurrence[s[right] - 'A']);
+            
+            if((right - left + 1) - maxOccurrence > k) {
+                occurrence[s[left] - 'A']--;
                 left++;
             }
             
-            st.insert(s[right]);
             ans = max(ans, right - left + 1);
         }
-        
+
         return ans;
     }
 };
